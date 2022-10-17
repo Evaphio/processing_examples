@@ -17,8 +17,7 @@ void setup() {
 void draw() {
   
 //points
-
-for (int i = 0; i  < lines.length; i++) {      // if the points need to be animated, it is better to use if expression
+for (int i = 0; i  < lines.length; i++) {      
   String [] pieces = lines[i].split(" ");
   //String [] pieces = split(lines[index], " "); 
   if (pieces.length == 2) {
@@ -28,30 +27,34 @@ for (int i = 0; i  < lines.length; i++) {      // if the points need to be anima
   stroke(255);
   point(x, y);
   }
-  
-  
- // lines
- if(index < lines.length) {
- if(true) {
-  x1 = int(lines[index].split(" ")[0]);
-  y1 = int(lines[index].split(" ")[1]);
- }
- if(index < lines.length - 1) {
-  x2 = int(lines[index + 1].split(" ")[0]);
-  y2 = int(lines[index + 1].split(" ")[1]);
-  } else {
+}
+
+ // lines 
+ 
+ if (index >= lines.length -1) {
+  noLoop();
+}
+                                          
+ if(index < lines.length) {               
+  x1 = int(lines[index].split(" ")[0]);   
+  y1 = int(lines[index].split(" ")[1]);   
+ }                                       
+ 
+                                          
+if(index < lines.length - 1) {            
+  x2 = int(lines[index + 1].split(" ")[0]); 
+  y2 = int(lines[index + 1].split(" ")[1]); 
+  } 
+if(index == lines.length - 1) {
     x2 = int(lines[0].split(" ")[0]);
     y2 = int(lines[0].split(" ")[1]);
   }
- frameRate(2);
+  
+ frameRate(1);
  stroke(97, 182, 252);
  strokeWeight(1);
  line(x1, y1, x2, y2);
- }
-
-  
- }
-
   index++; 
+  
 
 } 
