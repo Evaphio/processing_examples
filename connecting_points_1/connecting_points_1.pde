@@ -12,6 +12,7 @@ void setup() {
   background(0);
   stroke(255);
   lines = loadStrings("load.txt");
+
 }
 
 void draw() {
@@ -35,7 +36,7 @@ for (int i = 0; i  < lines.length; i++) {
   noLoop();
 }
                                           
- if(index < lines.length) {               
+ if(index < lines.length) {  
   x1 = int(lines[index].split(" ")[0]);   
   y1 = int(lines[index].split(" ")[1]);   
  }                                       
@@ -50,7 +51,7 @@ if(index == lines.length - 1) {
     y2 = int(lines[0].split(" ")[1]);
   }
   
- frameRate(1);
+ frameRate(10);
  stroke(97, 182, 252);
  strokeWeight(1);
  line(x1, y1, x2, y2);
