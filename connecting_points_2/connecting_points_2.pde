@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 String[] lines;
 int x = 0;
 int y = 0;
@@ -9,48 +11,73 @@ int index = 0;
 
 void setup() {
   size(500, 500);
+  textSize(20);
   background(0);
   stroke(255);
   lines = loadStrings("load.txt");
 
 }
 
+
+
 void draw() {
+  
+String [] pieces = lines[0].split(" ");
+
+ArrayList<String> arrayList = new ArrayList<>();
+
+
+for(String element : pieces) {
+  arrayList.add(element);
+}
+
+
+if(arrayList.size() % 2 != 0) {
+arrayList.remove(arrayList.size() -1);
+}
+ 
 //points
 // Why is not possible to use n % 2 == 0?
-String [] pieces = lines[0].split(" ");
-for (int i = 0; i < pieces.length; i += 2) {
-    x = int(pieces[i]);
-    y = int(pieces[i +1]);
+for (int i = 0; i < arrayList.size(); i += 2) {
+    x = int(arrayList.get(i));
+    y = int(arrayList.get(i +1));
       strokeWeight(6);
       stroke(255);
       point(x, y);
      }
      
 
-// try to comment why the length should be exactly such     
-if (index >= pieces.length - 2) {
+// try to comment why the length should be exactly such  
+
+
+
+
+if (index >= arrayList.size() -2) {
   noLoop();
 }
 
-if (index < pieces.length) {
-x1 = int(pieces[index]);
-y1 = int(pieces[index +1]);
+
+if (index < arrayList.size()) {
+x1 = int(arrayList.get(index));
+y1 = int(arrayList.get(index +1));
 }
 
-if(index < pieces.length - 3) {            
-  x2 = int(pieces[index + 2]); 
-  y2 = int(pieces[index + 3]);; 
+if(index < arrayList.size() - 3) {            
+  x2 = int(arrayList.get(index + 2)); 
+  y2 = int(arrayList.get(index + 3));; 
   } 
-if (index == pieces.length - 2) {
-    x2 = int(pieces[0]);
-    y2 = int(pieces[1]);
+if (index == arrayList.size() - 2) {
+    x2 = int(arrayList.get(0));
+    y2 = int(arrayList.get(1));
   }
 
 frameRate(10);
 stroke(97, 182, 252);
 strokeWeight(1);
 line(x1, y1, x2, y2);       
-index = index +2;        
-        
+index = index +2;    
+
 }
+
+
+        
