@@ -51,7 +51,7 @@ y1 = int(pieces[index +1]);
 
 if(index < size2 - 3) {            
   x2 = int(pieces[index + 2]); 
-  y2 = int(pieces[index + 3]);; 
+  y2 = int(pieces[index + 3]);
   } 
 if (index == size2 - 2) {
     x2 = int(pieces[0]);
