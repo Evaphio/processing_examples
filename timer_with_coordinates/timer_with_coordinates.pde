@@ -17,7 +17,7 @@ int music_y1;
 int music_y2;
 
 
-int times = 100;
+int times = 200;
 Timer timer;
 
 
@@ -56,6 +56,8 @@ int size2 = pieces.length & ~1;
                                     
 
 for (int n = 0; n < size2; n +=2 ) {
+
+// здесь, вероятно, надо сделать так, чтобы звучала нота, находящаяся на нулевой точке координат. как этого можно достичь?
 
 music_x1 = int(pieces[n]);
 music_y1 = int(pieces[n +1]);
@@ -159,13 +161,14 @@ counter ++;
 timer.start(); 
 j++;
 if (j >= limit) {
+  
 // Moving point----------
 if (i <= size2) {
 if (i == size2) {
 i = 0;
 }
 x = int(pieces[i]);
-y = int(pieces[i +1]);
+y = int(pieces[i+1]);
      }
 strokeWeight(25);
 stroke(255, 255, 255, 170);
@@ -177,8 +180,8 @@ i += 2;
   
 //background(#FF0000);
 music.play();
-j = 0;
-f++;
+j = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
+f++;                                     // на один увеличился f
 counter = 0;
 if (f == durations.size()) {
   f = 0;}
