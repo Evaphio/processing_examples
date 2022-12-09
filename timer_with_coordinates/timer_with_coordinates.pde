@@ -17,7 +17,7 @@ int music_y1;
 int music_y2;
 
 
-int times = 200;
+int times = 20;
 Timer timer;
 
 
@@ -61,7 +61,7 @@ for (int n = 0; n < size2; n +=2 ) {
 
 music_x1 = int(pieces[n]);
 music_y1 = int(pieces[n +1]);
-if(n < size2 - 3) {            
+if(n < size2 - 2) {            
   music_x2 = int(pieces[n + 2]); 
   music_y2 = int(pieces[n + 3]);; 
   }   
@@ -166,9 +166,9 @@ if (j >= limit) {
 if (i <= size2) {
 if (i == size2) {
 i = 0;
-}
-x = int(pieces[i]);
-y = int(pieces[i+1]);
+} 
+x = int(pieces[i+2]);  // сдвигается на однин цикл вперед
+y = int(pieces[i+3]);  // сдвигается на один цикл вперед
      }
 strokeWeight(25);
 stroke(255, 255, 255, 170);
