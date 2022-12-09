@@ -27,6 +27,7 @@ double limit = 15;
 ArrayList<Integer> durations = new ArrayList<>();
 
 int f = 0;
+int k = 0;
 
 void setup() {
 size(500,500);  
@@ -80,34 +81,48 @@ int size2 = pieces.length & ~1;
 
 // MUSIC
 
-if (keyPressed == true) {
+
+if (keyPressed == true) { 
 noLoop();
 }
-if (f == durations.size()) {  // ???
+
+
+// здесь необходим цикл, в котором f будет приобретать новое значение с пробегом функции. 
+
+
+limit = durations.get(f)/10;
+
+if (k < durations.get(f)) {
+  k++;
+} else {    
+  f++;
+}
+if (f == durations.size()) {
   f = 0;
 }
 
-limit = durations.get(f)/10; // надо ли округлять?
-
-
  
-println(f + " " + limit);
+println(f);
+
 
 if (i < limit) {
 if (timer.isPlaying()) {
 counter ++;
 timer.start(); 
 i++;
+
 if (i >= limit) {
 background(#FF0000);
 music.play();
 i = 0;
 counter = 0;
 }
-}  
+} 
 
 }
 text("Time: " + counter, 100, 200);
-f++;
+
+
+
 
 }
