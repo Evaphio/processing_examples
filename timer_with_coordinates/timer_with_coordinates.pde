@@ -55,7 +55,7 @@ if(n < size2 - 3) {
   }   
 d = Math.sqrt((music_x2 - music_x1) * (music_x2 - music_x1) + (music_y2 - music_y1) * (music_y2 - music_y1));
 
-int d2 = int(Math.round(d));
+int d2 = int(Math.round(d)); //надо ли округлять?
 
 durations.add(d2);
 }
@@ -83,14 +83,15 @@ int size2 = pieces.length & ~1;
 if (keyPressed == true) {
 noLoop();
 }
-
-limit = durations.get(f)/10;
-
-if (f == durations.size() -1) {
+if (f == durations.size()) {  // ???
   f = 0;
 }
 
-println(limit);
+limit = durations.get(f)/10; // надо ли округлять?
+
+
+ 
+println(f + " " + limit);
 
 if (i < limit) {
 if (timer.isPlaying()) {
