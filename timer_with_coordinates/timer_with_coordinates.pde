@@ -17,7 +17,7 @@ int music_y1;
 int music_y2;
 
 
-int times = 20;
+int times = 200;
 Timer timer;
 
 
@@ -37,6 +37,9 @@ int x1 = 0;
 int y1 = 0;
 int x2 = 0;
 int y2 = 0;
+
+
+int e = 0;
 
 void setup() {
 size(500,500);  
@@ -58,13 +61,18 @@ int size2 = pieces.length & ~1;
 for (int n = 0; n < size2; n +=2 ) {
 
 // здесь, вероятно, надо сделать так, чтобы звучала нота, находящаяся на нулевой точке координат. как этого можно достичь?
-
+if (n < size2) {
 music_x1 = int(pieces[n]);
 music_y1 = int(pieces[n +1]);
+}
 if(n < size2 - 2) {            
   music_x2 = int(pieces[n + 2]); 
   music_y2 = int(pieces[n + 3]);; 
-  }   
+  } 
+if (n == size2-2) {
+    music_x2 = int(pieces[0]);
+    music_y2 = int(pieces[1]);
+}
 d = Math.sqrt((music_x2 - music_x1) * (music_x2 - music_x1) + (music_y2 - music_y1) * (music_y2 - music_y1));
 
 int d2 = int(Math.round(d)); //надо ли округлять?
@@ -72,7 +80,6 @@ int d2 = int(Math.round(d)); //надо ли округлять?
 durations.add(d2);
 }
 //-----------------------------
-
 
 
 
@@ -84,12 +91,18 @@ void draw()  {
 background(0); 
 
 
+
+
 String [] pieces = numbers[0].split(" "); 
 
 int size2 = pieces.length & ~1;
 
-
-
+if (e<durations.size()){
+println(e + " " + durations.get(e));
+e++;
+} else {
+  e = 0;
+}
 
 
 // Dots
@@ -139,32 +152,17 @@ noLoop();
 
 limit = durations.get(f)/10;
 
-/*if (k < durations.get(f)) {
-  k++;
-} else {    
-  f++;
-}
-if (f == durations.size()) {
-  f = 0;
-}
-
-println(f + " " + durations.get(f));*/
-
- 
-
-
-
-
 if (j < limit) {                   // вероятно, изменение f должно быть внутри этого цикла
 if (timer.isPlaying()) {
 counter ++;
 timer.start(); 
 j++;
 if (j >= limit) {
-  
+
+/*
 // Moving point----------
-if (i <= size2) {
-if (i == size2) {
+if (i <= size2-1) {
+if (i == size2-1) {
 i = 0;
 } 
 x = int(pieces[i+2]);  // сдвигается на однин цикл вперед
@@ -175,23 +173,22 @@ stroke(255, 255, 255, 170);
 point(x, y);
 i += 2;
 //--------------------
-  
-  
-  
-//background(#FF0000);
+*/
 music.play();
 j = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
 f++;                                     // на один увеличился f
 counter = 0;
 if (f == durations.size()) {
-  f = 0;}
+ f = 0;
+ }
 }
 } 
 
 }
 text("Time: " + counter, 100, 200);
 
-println(f + " " + durations.get(f));
+//println(f + " " + durations.get(f));
+
 
 
 }
