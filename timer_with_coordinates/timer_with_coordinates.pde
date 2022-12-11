@@ -7,7 +7,7 @@ SoundFile music;
 
 //int t1;
 //int t2;
-int i = 0;
+int i = 1; // потому что начинается со второй ноты, i - индекс первой показываемой точки, на которой происходит звучание, это вторая точка. 
 int j = 0;
 int counter = 0;
 double d;
@@ -17,7 +17,7 @@ int music_y1;
 int music_y2;
 
 
-int times = 200;
+int times = 20;
 Timer timer;
 
 
@@ -26,6 +26,9 @@ String[] numbers;
 double limit = 15; 
 
 ArrayList<Integer> durations = new ArrayList<>();
+ArrayList<Integer> movingPoint_x = new ArrayList<>();
+ArrayList<Integer> movingPoint_y = new ArrayList<>();
+
 
 int f = 0;
 int k = 0;
@@ -82,15 +85,22 @@ durations.add(d2);
 //-----------------------------
 
 
+//---------- MOVING POINTS ARRAYS
+
+for (int n = 0; n < size2-1; n+=2) {
+x = int(pieces[n]);
+y = int(pieces[n+1]);
+movingPoint_x.add(x);
+movingPoint_y.add(y);
+}
+
 
 }
 
 
 //--------------------------------------------- DRAW ---------------------------------------------------------------------
-void draw()  {
+public void draw()  {
 background(0); 
-
-
 
 
 String [] pieces = numbers[0].split(" "); 
@@ -113,7 +123,6 @@ for (int i = 0; i < size2; i += 2) {
       stroke(255);
       point(x, y);
      }
-
 
 // Lines
 for (int n = 0; n < size2; n +=2) {
@@ -152,31 +161,28 @@ noLoop();
 
 limit = durations.get(f)/10;
 
-if (j < limit) {                   // вероятно, изменение f должно быть внутри этого цикла
+if (j < limit) {                   //изменение f должно быть внутри этого цикла
 if (timer.isPlaying()) {
 counter ++;
 timer.start(); 
 j++;
-if (j >= limit) {
+if (j >= limit) {                 // если j больше или равно limit, меняется на одно значение f, j становится равно 0, 
 
-/*
-// Moving point----------
-if (i <= size2-1) {
-if (i == size2-1) {
-i = 0;
-} 
-x = int(pieces[i+2]);  // сдвигается на однин цикл вперед
-y = int(pieces[i+3]);  // сдвигается на один цикл вперед
-     }
+
+
+if(i <= size2/2) {
 strokeWeight(25);
 stroke(255, 255, 255, 170);
-point(x, y);
-i += 2;
-//--------------------
-*/
+point(movingPoint_x.get(i), movingPoint_y.get(i));
+i++;
+if (i == size2/2) {
+i = 0;
+}
+}
+
 music.play();
 j = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
-f++;                                     // на один увеличился f
+f++;                                    // на один увеличился f
 counter = 0;
 if (f == durations.size()) {
  f = 0;
@@ -188,7 +194,6 @@ if (f == durations.size()) {
 text("Time: " + counter, 100, 200);
 
 //println(f + " " + durations.get(f));
-
 
 
 }
