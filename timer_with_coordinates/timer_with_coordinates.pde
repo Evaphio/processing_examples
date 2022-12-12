@@ -7,7 +7,7 @@ SoundFile music;
 
 //int t1;
 //int t2;
-int i = 1; // потому что начинается со второй ноты, i - индекс первой показываемой точки, на которой происходит звучание, это вторая точка. 
+int i = 0; // if i needs to start from the second point, i = 1. As the new 0 duration of sound was added (that will be used only once), i = 0
 int j = 0;
 int counter = 0;
 double d;
@@ -61,9 +61,13 @@ int size2 = pieces.length & ~1;
 // -----CALCULATING DISTANCES
                                     
 
-for (int n = 0; n < size2; n +=2 ) {
+for (int n = -2; n < size2; n +=2 ) {
 
 // здесь, вероятно, надо сделать так, чтобы звучала нота, находящаяся на нулевой точке координат. как этого можно достичь?
+if (n == -2) {
+durations.add(100);
+n = 0;                      // это необходимо чтобы сразу привести n к нулю и начать обычный цикл
+}
 if (n < size2) {
 music_x1 = int(pieces[n]);
 music_y1 = int(pieces[n +1]);
@@ -101,6 +105,7 @@ movingPoint_y.add(y);
 //--------------------------------------------- DRAW ---------------------------------------------------------------------
 public void draw()  {
 background(0); 
+frameRate(20);
 
 
 String [] pieces = numbers[0].split(" "); 
@@ -108,7 +113,7 @@ String [] pieces = numbers[0].split(" ");
 int size2 = pieces.length & ~1;
 
 if (e<durations.size()){
-println(e + " " + durations.get(e));
+println(e + " " + durations.get(e) + " " + durations.size());
 e++;
 } else {
   e = 0;
@@ -185,10 +190,11 @@ j = 0;                                   // j снова становится р
 f++;                                    // на один увеличился f
 counter = 0;
 if (f == durations.size()) {
- f = 0;
+ f = 1;
  }
 }
-} 
+}
+//------------ music stop!
 
 }
 text("Time: " + counter, 100, 200);
