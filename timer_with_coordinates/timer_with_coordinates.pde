@@ -47,7 +47,7 @@ int e = 0;
 void setup() {
 size(500,500);  
 textSize(40);
-music = new SoundFile(this, "1.aif");
+music = new SoundFile(this, "beat.aiff");
 numbers = loadStrings("load1.txt");
 timer = new Timer(times); 
 
@@ -173,9 +173,8 @@ timer.start();
 j++;
 if (j >= limit) {                 // если j больше или равно limit, меняется на одно значение f, j становится равно 0, 
 
-
-
 if(i <= size2/2) {
+music.stop();                     // previous playing stops
 strokeWeight(25);
 stroke(255, 255, 255, 170);
 point(movingPoint_x.get(i), movingPoint_y.get(i));
@@ -184,7 +183,6 @@ if (i == size2/2) {
 i = 0;
 }
 }
-
 music.play();
 j = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
 f++;                                    // на один увеличился f
@@ -194,7 +192,6 @@ if (f == durations.size()) {
  }
 }
 }
-//------------ music stop!
 
 }
 text("Time: " + counter, 100, 200);
