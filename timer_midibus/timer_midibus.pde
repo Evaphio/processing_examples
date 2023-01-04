@@ -192,9 +192,12 @@ j++;
 if (j >= limit) { // --------------------------------------------------если j больше или равно limit, меняется на одно значение f, j становится равно 0, SLOWER CYCLE
 if(i <= size2/2) { // ---- cycle with i  
 
-if (i > 0) {
+if (i > 0) {  // turns of the previous note
 println(int(Math.round((1080 - movingPoint_y.get(i - 1))/9)) + "off");
 myBus.sendNoteOff(channel, int(Math.round((1080 - movingPoint_y.get(i - 1))/9)), velocity);
+}
+if (i == 0) { // turns off the last note of the cycle,  when the cycle is done and i again is equal to 0
+myBus.sendNoteOff(channel, int(Math.round((1080 - movingPoint_y.get(movingPoint_y.size() - 1))/9)), velocity);
 }
 
 
