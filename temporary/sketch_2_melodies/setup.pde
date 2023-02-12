@@ -8,7 +8,7 @@ void setup() {
   
   instruments = loadStrings("instruments.txt");
     
-  String[] numbers = loadStrings("load3.txt");
+  String[] numbers = loadStrings(melodiesFile);
   melodies = new Melody[numbers.length];
   for (int i = 0; i < numbers.length; i++) {
     melodies[i] = new Melody(numbers[i]);
