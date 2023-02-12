@@ -51,7 +51,7 @@ class Melody {
   }
   
 
-void update() {
+int update() {
   
   if (keyPressed == true) { 
     noLoop();
@@ -96,7 +96,7 @@ void update() {
       segment = 0;
     }
   }
-
+  return segment;
 }
 
   void showRoute() {
