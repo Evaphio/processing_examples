@@ -11,12 +11,7 @@ MidiBus myBus;
 int instrument = 0;
 int inst_count = 0;
 
-// Timer
-int times = 20;
-Timer timer;
-
 // Arrays
-String[] numbers;
 String[] instruments;
 
 Melody[] melodies;

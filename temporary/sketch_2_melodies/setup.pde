@@ -8,23 +8,12 @@ void setup() {
   
   instruments = loadStrings("instruments.txt");
     
-  numbers = loadStrings("load3.txt");
+  String[] numbers = loadStrings("load3.txt");
   melodies = new Melody[numbers.length];
   for (int i = 0; i < numbers.length; i++) {
     melodies[i] = new Melody(numbers[i]);
   }
   
-  timer = new Timer(times); 
-
   cp5 = new ControlP5(this); // needs to always be added
-
-// -----CALCULATING DISTANCES
-                                    
-//-----------------------------
-
-
-//---------- MOVING POINTS ARRAY LIST
-
-
 
 }

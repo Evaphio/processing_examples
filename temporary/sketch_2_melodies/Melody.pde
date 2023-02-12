@@ -13,6 +13,9 @@ class Melody {
   private int segment = 0;
   private int iter;
 
+  int times = 20;
+  private Timer timer = new Timer(times); 
+
   //constructor
   Melody(String number) {
     pieces = number.split(" "); 
