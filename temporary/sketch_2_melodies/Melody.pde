@@ -11,7 +11,8 @@ class Melody {
   private int velocity = 400;
 
   private int segment = 0;
-  private int iter;
+
+  private Timer timer = new Timer(); 
 
   //constructor
   Melody(String number) {
@@ -52,38 +53,15 @@ class Melody {
 
 int update() {
   
-// MUSIC
-
-int pitch = int(Math.round((1080 - movingPoint_y.get(segment))/9)); // pitch formula, there are 1080 pixels height in the screen, they change half a tone every 9 pixels
-
-if (keyPressed == true) { 
-  noLoop();
-}
-
-
-// здесь необходим цикл, в котором f будет приобретать новое значение с пробегом функции. 
-
-double limit = durations.get(segment)/10;  // !!!! Sometimes the distance seems to be too small, and the program stops, then there should be some "if" statement for cases when the duration is too small
-
-if (limit < 1) {
-  limit = 1;
-}
-println(segment + "," + limit + "," + iter);
-
-//------------------------music cycle---------------------------------------------------------------------------
-if (iter < limit) { //------------------------------------------------------------------------------------------------------------------изменение f должно быть внутри этого цикла, j растет до очередного limit
-  
-  if (iter == 0) {
-    println(pitch + "on");
-    myBus.sendNoteOn(channel, pitch, velocity);  
-
-    strokeWeight(25);
-    stroke(random(0, 255), random(0, 255), random(0, 255), 170); // random color
-    point(movingPoint_x.get(segment), movingPoint_y.get(segment)); // появляется новая moving point
+  if (keyPressed == true) { 
+    noLoop();
   }
-  iter++;
-} else {
-  // --------------------------------------------------если iter больше или равно limit, меняется на одно значение segment, iter становится равно 0, SLOWER CYCLE
+
+  //------------------------music cycle---------------------------------------------------------------------------
+  if (!timer.isPlaying()) {
+
+    /* Stopping previous note, if was playing */
+    if (timer.isActivated()) {
       int prevPitch;
       if (segment > 0) {
         // turns of the previous note
@@ -94,15 +72,31 @@ if (iter < limit) { //----------------------------------------------------------
       }
       println(prevPitch + "off");
       myBus.sendNoteOff(channel, prevPitch, velocity);
-      
-    iter = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
+    }
+
+    int pitch = int(Math.round((1080 - movingPoint_y.get(segment))/9)); // pitch formula, there are 1080 pixels height in the screen, they change half a tone every 9 pixels
+    long limit = durations.get(segment) * speed_factor;
+    if (limit < 1) {
+      limit = 100;
+    }
+
+    /* Starting next note */
+    println(pitch + "on");
+    myBus.sendNoteOn(channel, pitch, velocity);  
+
+    strokeWeight(25);
+    stroke(random(0, 255), random(0, 255), random(0, 255), 170); // random color
+    point(movingPoint_x.get(segment), movingPoint_y.get(segment)); // появляется новая moving point
+
+    timer.start(limit);
+
+    /* Preparing for next cycle */
     segment++;
     if (segment == durations.size()) {
       segment = 0;
     }
-}
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------end of music cycle
-  return iter;
+  }
+  return segment;
 }
 
   void showRoute() {
