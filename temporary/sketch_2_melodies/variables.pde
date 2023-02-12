@@ -11,6 +11,8 @@ MidiBus myBus;
 int instrument = 0;
 int inst_count = 0;
 
+long speed_factor = 5;
+
 // Arrays
 String[] instruments;
 
