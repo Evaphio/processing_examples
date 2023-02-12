@@ -4,12 +4,11 @@ public void draw()  {
 background(0); // background does not leave traces when it is inside the draw method
 frameRate(20);
 
-mr.showRoute(0);
-m.update(0);
-nr.showRoute(1);
-n.update(1);
-
-
+int counter = 0;
+for (Melody melody : melodies) {
+  melody.showRoute();
+  counter = melody.update();
+}
 
 fill(0, 45,90);
 noStroke();
