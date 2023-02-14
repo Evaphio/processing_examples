@@ -1,4 +1,4 @@
-class Timer {
+/*class Timer {
 int t1 = 0;  // поставили курицу в духовку   если через запятую, то почти ничего -запятую
 int lastingTime;
 
@@ -20,7 +20,7 @@ return false;
 }
 
 }
-}
+}*/
 
 
 

@@ -26,7 +26,3 @@ String[] instruments;
 List<Integer> points = new ArrayList<Integer>();
 
 Melody[] melodies;
-
-// Timer
-int times = 20;
-Timer timer;

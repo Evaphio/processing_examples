@@ -14,8 +14,6 @@ void setup() {
   for (int i = 0; i < numbers.length; i++) {
     melodies[i] = new Melody(numbers[i]);
   }
-  
-  timer = new Timer(times);
 
 
   
