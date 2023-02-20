@@ -1,12 +1,17 @@
+PImage image;
+
 void setup() {
-fullScreen();
-background(0);
-fill(255);
-textSize(10);
+  size(1920, 1080);
+  fullScreen(); 
+  background(0);
+  fill(255);
+  textSize(10);
+  
+  image = loadImage("image3.jpg");
 }
 
 void draw() {
- 
+  image(image, 0, 0);
 
 }
 
