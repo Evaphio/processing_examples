@@ -1,13 +1,13 @@
 PImage image;
 
 void setup() {
-  size(1920, 1080);
+  size(300, 300);
   fullScreen(); 
   background(0);
   fill(255);
   textSize(10);
   
-  image = loadImage("image3.jpg");
+  image = loadImage("image1.jpg");
 }
 
 void draw() {
