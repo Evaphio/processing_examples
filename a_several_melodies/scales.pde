@@ -1,5 +1,5 @@
 void calculateScaleArray(int[] scale){
-  //эта функция расчитывает таблицу интервалов scaleArray по заданной интервальной системе scale
+  //эта функция расчитывает таблицу интервалов scaleArray по заданной интервальной системе (шкале) scale
   //также она сообщает количество ступеней scaleArraySize в таблице интервалов scaleArray - от 0 до 127.
   //также она сообщает количество пикселей в одной ступени stepInPixels 
   int previousTone = 0;
@@ -18,8 +18,8 @@ void calculateScaleArray(int[] scale){
     if (scalePointer == scale.length){
      scalePointer = 0; 
     }
-    println(i + " :" + scaleArray[i]);
+    //println(i + " :" + scaleArray[i]);
   }
-  stepInPixels = 1080 / scaleArraySize;
+  stepInPixels = height / scaleArraySize;
   println("ScaleArraySize: " + scaleArraySize);
 }

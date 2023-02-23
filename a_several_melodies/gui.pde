@@ -291,6 +291,7 @@ void gui() {
     .addItem("Major Pentatonic", 2)
     .addItem("Minor Pentatonic", 3)
     .addItem("Japanese Scale", 4)
+    .addItem("Blues Hexatonic Scale", 5)
     .activate(0)
     .moveTo(g3)
     ;

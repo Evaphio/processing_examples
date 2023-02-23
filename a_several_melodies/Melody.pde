@@ -1,6 +1,7 @@
 class Melody {
   
   String[] pieces;
+  int[] coords;
   int size2;
 
   ArrayList<Integer> durations = new ArrayList<>();
@@ -13,6 +14,7 @@ class Melody {
   int i = 0;
   int j = 0;
   boolean notePlayed = false;
+  int notePlayedPitch = -1;
 
   //instrument
   int instrument = 0;
@@ -27,8 +29,15 @@ class Melody {
 
   //constructor
   Melody(String number) {
-    pieces = number.split(" "); 
+    //конвертируем текст в координаты и масштабируем координаты
+    pieces = number.split(" "); //немасштабированные координаты в формате String
     size2 = pieces.length & ~1;
+    coords = new int[size2]; //масштабированные координаты в формате int
+    for (int i = 0; i < size2; i++){
+      double coordinatesOriginal = Double.parseDouble(pieces[i]);
+      double coordinatesScaled = coordinatesOriginal * scaleFactor;
+      coords[i] = (int)coordinatesScaled;
+    }
 
     int music_x1 = 0;
     int music_x2 = 0;
@@ -41,14 +50,14 @@ class Melody {
         durations.add(100);
         n = 0;                      // это необходимо чтобы сразу привести n к нулю и начать обычный цикл
       }
-      music_x1 = int(pieces[n]);
-      music_y1 = int(pieces[n +1]);
+      music_x1 = int(coords[n]) + shiftX; //конвертирование int можно удалить int(coords[]) -> coords[]
+      music_y1 = int(coords[n +1]);
       if (n < size2 - 2) {
-        music_x2 = int(pieces[n + 2]);
-        music_y2 = int(pieces[n + 3]);
+        music_x2 = int(coords[n + 2]) + shiftX;
+        music_y2 = int(coords[n + 3]);
       } else {
-        music_x2 = int(pieces[0]);
-        music_y2 = int(pieces[1]);
+        music_x2 = int(coords[0]) + shiftX;
+        music_y2 = int(coords[1]);
       }
   
       double d = Math.sqrt((music_x2 - music_x1) * (music_x2 - music_x1) + (music_y2 - music_y1) * (music_y2 - music_y1));
@@ -60,18 +69,52 @@ class Melody {
 
     // moving point array list
     for (int n = 0; n < size2; n+=2) {
-      int x = int(pieces[n]);
-      int y = int(pieces[n+1]);
+      int x = int(coords[n]) + shiftX;
+      int y = int(coords[n+1]);
       movingPoint_x.add(x);
       movingPoint_y.add(y);
     }
   }
   
-  void update () {
+  class Timer {
+   int t1 = 0;  // поставили курицу в духовку   если через запятую, то почти ничего -запятую
+   int lastingTime;
     
+    Timer(int givenLastingTime) {
+      this.lastingTime = givenLastingTime;
+    }
+    void start() { 
+      t1 = millis(); 
+    } 
+    
+    boolean isPlaying() {
+      int passedTime = millis() - t1; 
+      //println(passedTime + " " + lastingTime);
+      if(passedTime > lastingTime){   
+        return true;
+      } else {
+        return false;
+      }
+    } 
+  }
+  
+  
+  // Timer variables
+  int times = 20;
+  Timer timer = new Timer(times);
+  
+  int pitch() {
     int step = Math.round(movingPoint_y.get(i) / stepInPixels); //ступень от 0 до scaleArraySize (макс. 127). 0 вверху экрана, 127 внизу.
     int stepInverted = (scaleArraySize - step); //переворачиваем ступень, чтобы 0 было внизу экрана. Тогда внизу будут низкие ноты
     int pitch = scaleArray[stepInverted]; //конвертируем ступень в pitch по таблице интервалов
+    return pitch;
+  }
+  
+  void update () {
+    
+    //int step = Math.round(movingPoint_y.get(i) / stepInPixels); //ступень от 0 до scaleArraySize (макс. 127). 0 вверху экрана, 127 внизу.
+    //int stepInverted = (scaleArraySize - step); //переворачиваем ступень, чтобы 0 было внизу экрана. Тогда внизу будут низкие ноты
+    //int pitch = scaleArray[stepInverted]; //конвертируем ступень в pitch по таблице интервалов
 
     if (keyPressed == true) { 
       noLoop();
@@ -89,37 +132,105 @@ class Melody {
       limit = 1;
     }
     currentLimit = limit;
-  
-    //Включение ноты.
-    if (notePlayed == false && active == true){
-      myBus.sendNoteOn(channel, pitch, velocity);
-      strokeWeight(25);
-      stroke(random(0, 255), random(0, 255), random(0, 255), 170); // random color
-      point(movingPoint_x.get(i), movingPoint_y.get(i)); // появляется новая moving point в начале нового отрезка
-      notePlayed = true; 
-    }
-    //Отключение играющей ноты.
-    if (j >= (limit * ((double) duration / 100.0))){
-      myBus.sendNoteOff(channel, pitch, velocity);
-    }
+       
+  //  //Включение ноты.
+  //  if (notePlayed == false && active == true && timer.isPlaying()){
+  //    myBus.sendNoteOn(channel, pitch, velocity);
+  //    strokeWeight(25);
+  //    stroke(random(0, 255), random(0, 255), random(0, 255), 170); // random color
+  //    point(movingPoint_x.get(i), movingPoint_y.get(i)); // появляется новая moving point в начале нового отрезка
+  //    notePlayed = true;
+  //    notePlayedPitch = pitch;
+  //    //println("Note " + pitch + " sent");
+  //   }
+  //   //Отключение ранее сыгранной ноты, записанной в notPlayedPitch. 
+  //   //Если нет сыгранной ноты или она уже отключена, то notPlayedPitch == -1
+  //   double durationOfNote = (double)duration * (double)limit * 0.01;
+  //   //if (j >= (int)durationOfNote && notePlayedPitch != -1 && timer.isPlaying()){
+  //   if (j >= limit && notePlayedPitch != -1 && timer.isPlaying()){
+  //     myBus.sendNoteOff(channel, notePlayedPitch, velocity);
+  //     notePlayedPitch = -1;
+  //     //println("Note " + pitch + " turned off");
+  //   }
  
-    //---------------music cycle--------------------
-    counter++;// same as j, should it be replaced?
-    j++;
-    if (j >= limit) {
-      i++;
-      if (i == size2/2) {
-        i = 0;
+  //  //---------------music cycle--------------------
+  //  if (timer.isPlaying()){
+  //    counter++;// same as j, should it be replaced?
+  //    timer.start();
+  //    j++;
+      
+  //    if (j >= limit) {
+  //      i++;
+  //      if (i == size2/2) {
+  //        i = 0;
+  //      }
+  //      notePlayed = false;
+  //      j = 0; // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
+  //      f++;                                    
+  //      if (f == durations.size()) {
+  //        f = 1; // потому что есть еще и нулевая длина
+  //      }
+  //      counter = 0;
+  //    }
+  //  }
+  //}
+  
+  
+  
+  //------------------------music cycle---------------------------------------------------------------------------
+  if (j < limit) { //------------------------------------------------------------------------------------------------------------------изменение f должно быть внутри этого цикла, j растет до очередного limit
+    if (timer.isPlaying()) {
+      counter ++;// same as j, should it be replaced?
+      timer.start(); 
+      j++;
+      double durationOfNote = (double)duration * (double)limit * 0.01;
+      if (j >= durationOfNote && notePlayedPitch != -1){
+        myBus.sendNoteOff(channel, notePlayedPitch, velocity);
       }
-      notePlayed = false;
-      j = 0; // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
-      f++;                                    
-      if (f == durations.size()) {
-        f = 1; // потому что есть еще и нулевая длина
-      }
-      counter = 0;
-    } 
+      if (j >= limit) { // --------------------------------------------------если j больше или равно limit, меняется на одно значение f, j становится равно 0, SLOWER CYCLE
+        if(i <= size2/2) { // ---- cycle with i  
+          
+          i++;
+          if (i == size2/2) {
+            i = 0;
+          }
+        
+        
+          if (notePlayedPitch != -1) {  // turns of the previous note
+            myBus.sendNoteOff(channel, notePlayedPitch, velocity);
+          }
+          
+          
+         
+          if (active == true){
+            println(pitch() + "on");
+            myBus.sendNoteOn(channel, pitch(), velocity);
+            notePlayedPitch = pitch();
+          }
+          strokeWeight(25);
+          //stroke(255, 255, 255, 170); // white color
+          stroke(random(0, 255), random(0, 255), random(0, 255), 170); // random color
+          
+          
+          point(movingPoint_x.get(i), movingPoint_y.get(i)); // появляется новая moving point
+          
+          
+        }
+        j = 0;                                   // j снова становится равным нулю, можно снова запускать его, пока он не достигнет limit
+        f++;                                    // на один увеличился f
+        counter = 0;
+        if (f == durations.size()) {
+           f = 1; // потому что есть еще и нулевая длина
+         }
+      } //-------------------------------------------------------------------------------------------------------------------------------------------------------SlOWER CYCLE
+    }
   }
+  }
+
+  
+  
+  
+  
   
   void movingDot(){
      strokeWeight(10);
@@ -149,8 +260,8 @@ class Melody {
     
     // Dots
     for (int i = 0; i < size2; i += 2) {
-      x = int(pieces[i]);
-      y = int(pieces[i +1]);
+      x = int(coords[i]) + shiftX;
+      y = int(coords[i +1]);
       strokeWeight(6);
       stroke(melodyColor);
       point(x, y);
@@ -163,14 +274,14 @@ class Melody {
 
     // Lines
     for (int n = 0; n < size2; n +=2) {
-      x1 = int(pieces[n]);
-      y1 = int(pieces[n +1]);
+      x1 = int(coords[n]) + shiftX;
+      y1 = int(coords[n +1]);
       if(n < size2 - 2) {            
-        x2 = int(pieces[n + 2]); 
-        y2 = int(pieces[n + 3]);; 
+        x2 = int(coords[n + 2]) + shiftX; 
+        y2 = int(coords[n + 3]); 
       } else {
-        x2 = int(pieces[0]);
-        y2 = int(pieces[1]);
+        x2 = int(coords[0]) + shiftX;
+        y2 = int(coords[1]);
       }
 
       strokeWeight(1);
