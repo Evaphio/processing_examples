@@ -17,11 +17,11 @@ long speed_factor = 4;
 int counter = 0;
 int duration = 50;
 
-//координаты и данные об изображении
+//coordinates and image data
 //"load3.txt"
-String melodiesFile = "coord4.txt";
+String melodiesFile = "coord2.txt";
 
-//изображение
+//image
 PImage image;
 int imageWidth = 1;
 int imageHeight = 1;

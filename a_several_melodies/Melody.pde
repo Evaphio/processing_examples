@@ -29,10 +29,10 @@ class Melody {
 
   //constructor
   Melody(String number) {
-    //конвертируем текст в координаты и масштабируем координаты
-    pieces = number.split(" "); //немасштабированные координаты в формате String
+    //convert the text into coordinates + scale the coordinates 
+    pieces = number.split(" "); // non-scaled coordinates in String format
     size2 = pieces.length & ~1;
-    coords = new int[size2]; //масштабированные координаты в формате int
+    coords = new int[size2]; // scaled coordinates in int format
     for (int i = 0; i < size2; i++){
       double coordinatesOriginal = Double.parseDouble(pieces[i]);
       double coordinatesScaled = coordinatesOriginal * scaleFactor;
@@ -48,9 +48,9 @@ class Melody {
       
       if (n == -2) {
         durations.add(100);
-        n = 0;                      // это необходимо чтобы сразу привести n к нулю и начать обычный цикл
+        n = 0;                      // this isneeded to bring n to 0 and to start the standard cycle 
       }
-      music_x1 = int(coords[n]) + shiftX; //конвертирование int можно удалить int(coords[]) -> coords[]
+      music_x1 = int(coords[n]) + shiftX; //int can be deleted, int(coords[]) -> coords[]; it is here for visibility
       music_y1 = int(coords[n +1]);
       if (n < size2 - 2) {
         music_x2 = int(coords[n + 2]) + shiftX;

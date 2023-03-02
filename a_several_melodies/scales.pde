@@ -1,19 +1,19 @@
 void calculateScaleArray(int[] scale){
-  //эта функция расчитывает таблицу интервалов scaleArray по заданной интервальной системе (шкале) scale
-  //также она сообщает количество ступеней scaleArraySize в таблице интервалов scaleArray - от 0 до 127.
-  //также она сообщает количество пикселей в одной ступени stepInPixels 
+  //calucluates the tavle of intervals scaleArray according to the scale
+  //it also sets the number of steps in  scaleArraySize in the table of intervals scaleArray - from 0 to 127.
+  //it also calculates the number of pixels in one step  stepInPixels 
   int previousTone = 0;
-  int scalePointer = 0; //указатель на текущий элемент в интервальной системе scale
+  int scalePointer = 0; //the indicater of the current element in the scale
   for(int i = 0; i < scaleArray.length; i++){
     if (i != 0) {
-      previousTone = scaleArray[i-1]; //записываем предыдущую ноту
+      previousTone = scaleArray[i-1]; //registering the previous note
     }
-    scaleArray[i] = previousTone + scale[scalePointer]; //текущая нота равна предыдущей + интервал
+    scaleArray[i] = previousTone + scale[scalePointer]; //the current note = the previous note plus interval 
     scaleArraySize = i;
     if (scaleArray[i] > 127){
-      break; //если значения нот начинают выходить за 127, останавливаем цикл
+      break; //if the pitch number is higher than 127, stop the cycle
     }
-    scalePointer++; //устанавливаем указатель в интервальной системе на следующий интервал
+    scalePointer++; //the indicater of the next interval in the scale
     //если дошли до конца, то возвращаемся на начало
     if (scalePointer == scale.length){
      scalePointer = 0; 

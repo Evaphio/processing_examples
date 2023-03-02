@@ -12,11 +12,11 @@ void setup() {
   
   instruments = loadStrings("instruments.txt");
   
-  String[] numbers = loadStrings(melodiesFile); //0-я строка в текстовом файле - данные о картинке, а не координаты,
-  //поэтому пропускаем 0-ю строку в цикле
+  String[] numbers = loadStrings(melodiesFile); //the 0 string is the image data
+  // that is why in the cycle we skip the 0 string
   
-  //масштабирование изображения и координат под экран
-  //информация об изображении
+  //adjusting image size to the size of the screen
+  //image data
   String str1 = numbers[0].replace(',', ' ').replace(" | ", " ");
   String[] metadata = str1.split(" ");
   //загрузка изображения

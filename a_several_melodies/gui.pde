@@ -310,8 +310,8 @@ void gui() {
     .setSpacingColumn(25)
     ;
    for (int i = 0; i < melodies.length; i++){ 
-   //С помощью цикла добавляем переключатели. Количество
-   //переключателей зависит от количества мелодий.
+   //cycle adds buttons. the number of 
+   //buttons depends on the number of melodies
      melodiesRadioButton.addItem(""+i, i);
    }
    melodiesRadioButton

@@ -6,6 +6,8 @@ void deactivateOthers(int current) {
   }
 }
 
+
+// select instruments
 void radio1(int theC) {
   deactivateOthers(1);
   melodies[selectedMelody].instrument = theC;
@@ -79,13 +81,15 @@ void radio16(int theC) {
   melodies[selectedMelody].instrument = theC;
 }
 
+//color
+
 void colorSelection(int c) {
   melodies[selectedMelody].colorIndex = c;
 }
 
 void melodiesRadioButton(int melodyIndex){
   selectedMelody = melodyIndex;
-  //Перезагрузка переключателя инструментов
+  //Reloading instrument switch
   int radioButtonsInGroup = 8;
   int radioGroupIndex = (melodies[selectedMelody].instrument / radioButtonsInGroup) + 1; //номер группы RadioButton, которой принадлежит текущий инструмент (номер от 0 до 15)
   RadioButton r = (RadioButton) cp5.getGroup("radio" + radioGroupIndex);
@@ -93,11 +97,11 @@ void melodiesRadioButton(int melodyIndex){
   int indexInRadioGroup = melodies[selectedMelody].instrument % radioButtonsInGroup; //деление по модулю, чтобы найти индекс инструмента в нужной группе (индекс от 0 до 7)
   r.activate(indexInRadioGroup);
   instrument = melodies[selectedMelody].instrument;
-  //Перезагрузка переключателя цветов
+  //Reloading color switch
   RadioButton c = (RadioButton) cp5.getGroup("colorSelection");
   c.deactivateAll();
   c.activate(melodies[selectedMelody].colorIndex);
-  //Перезагрузка переключателя звука
+  //Reloading sound switch
   Toggle a = (Toggle) cp5.getController("active");
   a.setValue(melodies[selectedMelody].active);
 }
@@ -110,6 +114,7 @@ void active(boolean flag){
   }
 }
 
+// musical scales
 void chromatic(int scaleIndex){
   calculateScaleArray(scales[scaleIndex]);
 }

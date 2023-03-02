@@ -7,7 +7,7 @@ void setup() {
   fill(255);
   textSize(10);
   
-  image = loadImage("image4.jpg");
+  image = loadImage("image1.jpg");
 }
 
 void draw() {
